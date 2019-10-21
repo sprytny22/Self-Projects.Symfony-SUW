@@ -19,33 +19,36 @@ class SubFileController extends Controller
     {
         $subfile = new SubFile();
 
-        $form = $this->createForm(SubFileType::class, $subfile);
+        $form = $this->createForm(SubFileType::class);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
             $brochureFile = $form['brochure']->getData();
+            $nameFile = $form['namefile']->getData();
+            $subjectName =  $form['subjectname']->getData();
 
             if($brochureFile) {
 
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = 'filename';
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
+                $brochureFileName = $nameFile.'-'.uniqid().'.'.$brochureFile->guessExtension();
+                $extensionFile = $brochureFile->guessExtension();
+                $nowTime = new \DateTime();
 
                 try {
                     $brochureFile->move(
                         $this->getParameter('brochures_directory'),
-                        $newFilename
+                        $brochureFileName
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $subfile->setBrochureFileName($newFilename);
+                $subfile->setNameFile($nameFile);
+                $subfile->setExtensionFile($extensionFile);
+                $subfile->setCreatedAt($nowTime);
+                $subfile->setSubjectName($subjectName);
+                $subfile->setBrochureFileName($brochureFileName);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($subfile);

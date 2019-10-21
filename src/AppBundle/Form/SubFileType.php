@@ -2,8 +2,8 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AppBundle\Entity\SubFile;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +20,7 @@ class SubFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('namefile', TextType::class)
             ->add('brochure', FileType::class, [
                 'label' => 'Brochure (PDF file)',
 
@@ -43,6 +44,7 @@ class SubFileType extends AbstractType
                     ])
                 ],
             ])
+            ->add ('subjectname', TextType::class)
             ->add('save', SubmitType::class)
             // ...
         ;
