@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AppBundle\Entity\SubFile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Templating\TemplatingExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\SubmitButton;
@@ -45,6 +46,7 @@ class SubFileType extends AbstractType
                 ],
             ])
             ->add ('subjectname', TextType::class)
+            //->add ('typename',TextType::class)
             ->add('save', SubmitType::class)
             // ...
         ;

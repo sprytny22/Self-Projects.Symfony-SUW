@@ -28,12 +28,14 @@ class SubFileController extends Controller
             $brochureFile = $form['brochure']->getData();
             $nameFile = $form['namefile']->getData();
             $subjectName =  $form['subjectname']->getData();
+            //$typeName = $form['typename']->getData();
 
             if($brochureFile) {
 
                 $brochureFileName = $nameFile.'-'.uniqid().'.'.$brochureFile->guessExtension();
                 $extensionFile = $brochureFile->guessExtension();
-                $nowTime = new \DateTime();
+                $time = new \DateTime();
+                $nowTime = $time->format('d-m-Y');
 
                 try {
                     $brochureFile->move(
@@ -49,6 +51,7 @@ class SubFileController extends Controller
                 $subfile->setCreatedAt($nowTime);
                 $subfile->setSubjectName($subjectName);
                 $subfile->setBrochureFileName($brochureFileName);
+                // $subfile->setTypeFile($typeName);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($subfile);
@@ -56,10 +59,14 @@ class SubFileController extends Controller
             }
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $file = $em->getRepository(SubFile::class)->findAll();
+
 
         // replace this example code with whatever you need
         return $this->render('default/subfile.html.twig', [
-        'form' => $form->createView(),
+            'form' => $form->createView(),
+            'files' => $file,
     ]);
     }
 }

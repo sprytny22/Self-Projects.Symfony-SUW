@@ -44,8 +44,8 @@ class SubFile
     private $brochureFileName;
 
     /**
-     * @Assert\DateTime
-     * @var string A "Y-m-d H:i:s" formatted value
+     * @var string
+     * @ORM\Column(name="createdAt", type="string", length=10, unique=false)
      */
     private $createdAt;
 
