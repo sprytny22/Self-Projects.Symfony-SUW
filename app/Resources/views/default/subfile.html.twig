@@ -2,6 +2,14 @@
 
 {% block body %}
     <div class="row mt-4 mb-3">
+        {% for message in app.flashes('success') %}
+            <div class="col-lg-4">
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+
         {% if files %}
             <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar">
                 <table class="table table-bordered table-striped mb-0">
@@ -12,6 +20,11 @@
                             <th scope="col">Typ pliku</th>
                             <th scope="col">Data dodania</th>
                             <th scope="col">Przedmiot</th>
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <th scope="col">Usun</th>
+                            {% endif %}
+                            <th scope="col">Pobierz</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -22,6 +35,14 @@
                                 <td>{{ ro.extensionFile }}</td>
                                 <td>{{ ro.createdAt }}</td>
                                 <td>{{ ro.subjectName }}</td>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <td>
+                                        <a href="/Upload/delete/{{ ro.id }}" class="btn btn-danger" role="button">Remove</a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="/Upload/get/{{ ro.id }}" class="btn btn-info" role="button">Download</a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -29,7 +50,7 @@
             </div>
         {% endif %}
         {% if form %}
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 {{ form_start(form) }}
                     <div class="form-group">
                         <label>Nazwa pliku</label>
@@ -50,8 +71,5 @@
                 {{ form_end(form) }}
             </div>
         {% endif %}
-        {#{{ form_start(form) }}
-            {{ form_row(form.brochure) }}
-        {{ form_end(form) }}#}
     </div>
 {% endblock %}
