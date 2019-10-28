@@ -67,6 +67,37 @@ class SubFileController extends Controller
         return $this->render('default/subfile.html.twig', [
             'form' => $form->createView(),
             'files' => $file,
-    ]);
+        ]);
+    }
+
+    /**
+     * @Route("/Upload/delete/{id}", name="deletefile")
+     */
+    public function deleteAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $file = $em->getRepository(SubFile::class)->find($id);
+        $namef = $file->getNameFile();
+
+        $this->addFlash('success','Removed '.$namef.' from database.');
+
+        $em->remove($file);
+        $em->flush();
+
+        return $this->redirectToRoute('uploadfile');
+    }
+
+    /**
+     * @Route("/Upload/get/{id}", name="getfile")
+     */
+
+    public function getFileAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $fileID = $em->getRepository(SubFile::class)->find($id);
+
+        $fullFileName = $fileID->getBrochureFileName();
+
+        $pdfPath = $this->getParameter('brochures_directory').'/'.$fullFileName;
+
+        return $this->file($pdfPath);
     }
 }
