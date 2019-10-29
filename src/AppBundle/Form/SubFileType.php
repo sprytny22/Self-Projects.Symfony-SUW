@@ -40,6 +40,7 @@ class SubFileType extends AbstractType
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
+                            'application/zip',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])

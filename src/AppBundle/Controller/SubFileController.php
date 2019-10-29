@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SubFileController extends Controller
 {
     /**
-     * @Route("/Upload", name="uploadfile")
+     * @Route("/wyklady", name="uploadfile")
      */
     public function addAction(Request $request)
     {
@@ -71,7 +71,7 @@ class SubFileController extends Controller
     }
 
     /**
-     * @Route("/Upload/delete/{id}", name="deletefile")
+     * @Route("/wyklady/delete/{id}", name="deletefile")
      */
     public function deleteAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -87,7 +87,7 @@ class SubFileController extends Controller
     }
 
     /**
-     * @Route("/Upload/get/{id}", name="getfile")
+     * @Route("/wyklady/get/{id}", name="getfile")
      */
 
     public function getFileAction($id) {
