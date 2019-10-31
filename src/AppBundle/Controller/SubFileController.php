@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use AppBundle\Form\SubFileType;
 use AppBundle\Entity\SubFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -99,5 +100,35 @@ class SubFileController extends Controller
         $pdfPath = $this->getParameter('brochures_directory').'/'.$fullFileName;
 
         return $this->file($pdfPath);
+    }
+
+    /**
+     * @Route("/accept", name="displacceptfile")
+     */
+    public function displayAcceptAction(){
+        $em = $this->getDoctrine()->getManager();
+        $students = $em->getRepository(User::class)->findBy(['enabled' => '0']);
+
+        return $this->render('default/accept.html.twig', [
+            'users' => $students,
+        ]);
+    }
+
+    /**
+     * @Route("/accept/{id}", name="acceptedfile")
+     */
+    public function acceptedAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository(User::class)->find($id);
+
+        $student->setEnabled(true);
+
+        $em->merge($student);
+        $em->flush();
+
+        $this->addFlash('success_accepted_user','Zaakceptowano!');
+
+        return $this->redirectToRoute('displacceptfile');
     }
 }
