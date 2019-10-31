@@ -58,6 +58,11 @@ class SubFile
 
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="files", cascade={"persist", "merge"})
+     */
+    private $user;
+
+    /**
      * @return string
      */
     public function getSubjectName()
@@ -175,5 +180,40 @@ class SubFile
      */
     public function __construct()
     {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return SubFile
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
