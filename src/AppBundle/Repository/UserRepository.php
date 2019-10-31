@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findDisabledUsers() {
+        return $this->$this->getEntityManager()
+            ->createQuery(
+                'SELECT * FROM AppBundle:User WHERE User.enabled=0'
+            )
+            ->getResult();
+    }
 }
