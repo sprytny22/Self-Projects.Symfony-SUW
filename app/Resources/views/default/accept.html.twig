@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {% for message in app.flashes('success_accepted_user') %}
+            <div class="col-lg-4">
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+        {% if users %}
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-bordered table-striped mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Imie</th>
+                        <th scope="col">Nazwisko</th>
+                        <th scope="col">Numer indeksu</th>
+                        <th scope="col">Akceptacja</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for us in users %}
+                        <tr>
+                            <th scope="row">{{ us.id }}</th>
+                            <td>{{ us.username }}</td>
+                            <td>{{ us.surName }}</td>
+                            <td>{{ us.indNumber }}</td>
+                            <td>
+                                <a href="/accept/{{ us.id }}" class="btn btn-info" role="button">Akceptuj</a>
+                            </td>
+                            <td>
+                                <a href="/passwd/{{ us.id }}" class="btn btn-danger" role="button">Zmień hasło</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="col-lg-12 mt-4">
+                <div class="form-text border-bottom">
+                    <label><h2>Brak studentów do zaakceptowania.</h2></label>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
