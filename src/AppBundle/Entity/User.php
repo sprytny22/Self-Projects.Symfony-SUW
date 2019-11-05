@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  */
 class User extends BaseUser
@@ -31,6 +31,28 @@ class User extends BaseUser
      * @ORM\JoinTable(name="UserSubFile")
      */
     private $file;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="downloads", type="integer", unique=false)
+     */
+    private $downloads = 0;
+
+     /**
+     * @return integer
+     */
+    public function getDownloads()
+    {
+        return $this->downloads;
+    }
+
+    /**
+     * @param integer $downloads
+     */
+    public function setDownloads($downloads)
+    {
+        $this->downloads = $downloads;
+    }
 
     /**
      * @return string
