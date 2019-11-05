@@ -10,10 +10,17 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findDisabledUsers() {
-        return $this->$this->getEntityManager()
+    public function getNumberOfDownloads() {
+        return $this->getEntityManager()
             ->createQuery(
-                'SELECT * FROM AppBundle:User WHERE User.enabled=0'
+                'SELECT SUM(u.downloads) FROM AppBundle:User u'
+            )
+            ->getResult();
+    }
+    public function getNumberOfUsers() {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT COUNT(u.id) FROM AppBundle:User u'
             )
             ->getResult();
     }
