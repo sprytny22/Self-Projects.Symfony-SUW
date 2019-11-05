@@ -7,19 +7,19 @@ app:
 
 file:
     path: /file
-    defaults: {_controller: AppBundle:Admin:add}
+    defaults: {_controller: AppBundle:User:file}
 
 file_delete:
     path: /file/delete/{id}
-    defaults: {_controller: AppBundle:Admin:delete}
+    defaults: {_controller: AppBundle:Admin:deleteFile}
 
 file_get:
     path: /file/get/{id}
-    defaults: {_controller: AppBundle:Admin:getFile}
+    defaults: {_controller: AppBundle:User:getFile}
 
 accept:
     path: /accept
-    defaults: {_controller: AppBundle:Admin:displayAccept}
+    defaults: {_controller: AppBundle:Admin:accept}
 
 accepted:
     path: /accept/{id}
@@ -27,7 +27,7 @@ accepted:
 
 passwd:
     path: /passwd
-    defaults: {_controller: AppBundle:Admin:changeStudentPassword}
+    defaults: {_controller: AppBundle:Admin:changePassword}
 
 stats:
     path: /stat
