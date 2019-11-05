@@ -1,6 +1,38 @@
 fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    resource: "xmls/all.xml"
 
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+file:
+    path: /file
+    defaults: {_controller: AppBundle:Admin:add}
+
+file_delete:
+    path: /file/delete/{id}
+    defaults: {_controller: AppBundle:Admin:delete}
+
+file_get:
+    path: /file/get/{id}
+    defaults: {_controller: AppBundle:Admin:getFile}
+
+accept:
+    path: /accept
+    defaults: {_controller: AppBundle:Admin:displayAccept}
+
+accepted:
+    path: /accept/{id}
+    defaults: {_controller: AppBundle:Admin:accepted}
+
+passwd:
+    path: /passwd
+    defaults: {_controller: AppBundle:Admin:changeStudentPassword}
+
+stats:
+    path: /stat
+    defaults: {_controller: AppBundle:Admin:statistics}
+
+history:
+    path: /history
+    defaults: {_controller: AppBundle:Admin:history}
