@@ -2,20 +2,22 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Download;
 use AppBundle\Entity\User;
 use AppBundle\Form\SubFileType;
 use AppBundle\Entity\SubFile;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class SubFileController extends Controller
+class AdminController extends Controller
 {
-    /**
-     * @Route("/wyklady", name="uploadfile")
-     */
     public function addAction(Request $request)
     {
         $subfile = new SubFile();
@@ -64,16 +66,12 @@ class SubFileController extends Controller
         $file = $em->getRepository(SubFile::class)->findAll();
 
 
-        // replace this example code with whatever you need
         return $this->render('default/subfile.html.twig', [
             'form' => $form->createView(),
             'files' => $file,
         ]);
     }
 
-    /**
-     * @Route("/wyklady/delete/{id}", name="deletefile")
-     */
     public function deleteAction($id) {
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository(SubFile::class)->find($id);
@@ -87,24 +85,28 @@ class SubFileController extends Controller
         return $this->redirectToRoute('uploadfile');
     }
 
-    /**
-     * @Route("/wyklady/get/{id}", name="getfile")
-     */
-
-    public function getFileAction($id) {
+    public function getFileAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
-        $fileID = $em->getRepository(SubFile::class)->find($id);
 
-        $fullFileName = $fileID->getBrochureFileName();
+        $file = $em->getRepository(SubFile::class)->find($id);
+        $user = $this->getUser();
+        $ip = $request->getClientIp();
+
+        $fullFileName = $file->getBrochureFileName();
 
         $pdfPath = $this->getParameter('brochures_directory').'/'.$fullFileName;
+
+        $download = new Download();
+        $download->setUser($user);
+        $download->setFile($file);
+        $download->setIp($ip);
+
+        $em->persist($download);
+        $em->flush();
 
         return $this->file($pdfPath);
     }
 
-    /**
-     * @Route("/accept", name="displacceptfile")
-     */
     public function displayAcceptAction(){
         $em = $this->getDoctrine()->getManager();
         $students = $em->getRepository(User::class)->findBy(['enabled' => '0']);
@@ -114,9 +116,6 @@ class SubFileController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/accept/{id}", name="acceptedfile")
-     */
     public function acceptedAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -130,5 +129,68 @@ class SubFileController extends Controller
         $this->addFlash('success_accepted_user','Zaakceptowano!');
 
         return $this->redirectToRoute('displacceptfile');
+    }
+
+    public function changeStudentPasswordAction(Request $request) {
+        $form = $this->createFormBuilder()
+            ->add('username', TextType::class, ['label' => 'Numer albumu']) //TODO: valid
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'options' => array(
+                    'translation_domain' => 'FOSUserBundle',
+                    'attr' => array(
+                        'autocomplete' => 'new-password',
+                    ),
+                ),
+                'first_options' => array('label' => 'form.new_password'),
+                'second_options' => array('label' => 'form.new_password_confirmation'),
+            ))
+            ->add('save', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $ind = $form['username']->getData();
+            $passwd = $form['plainPassword']->getData();
+
+            $userManager = $this->container->get('fos_user.user_manager');
+            $um = $userManager->findUserBy(array('indNumber' => $ind));
+
+            $um->setPlainPassword($passwd); 
+
+            $userManager->updateUser($um);
+        }
+
+        return $this->render('default/password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function statisticsAction(Request $request) {
+
+        $files = $this->getDoctrine()->getRepository(SubFile::class)->getNumberOfFiles();
+        $students = $this->getDoctrine()->getRepository(User::class)->getNumberOfUsers();
+        $downloads = $this->getDoctrine()->getRepository(User::class)->getNumberOfDownloads();
+
+        $files1 = $files[0][1];
+        $students1 = $students[0][1];
+        $downloads1 = $downloads[0][1];
+
+        return $this->render('default/stat.html.twig', [
+            'downloads' => $downloads1,
+            'files' => $files1,
+            'students' => $students1,
+        ]);
+    }
+
+    public function historyAction(Request $request) { //TODO: security
+
+        $em = $this->getDoctrine()->getManager();
+        $downloads = $em->getRepository(Download::class)->findAll();
+
+        return $this->render('default/history.html.twig', [
+            'downloads' => $downloads,
+        ]);
     }
 }
