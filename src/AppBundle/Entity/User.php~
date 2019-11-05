@@ -143,30 +143,6 @@ class User extends BaseUser
     }
 
     public function setUsername($username){
-        $this->firstName = $username;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     *
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
+        //disabled
     }
 }
