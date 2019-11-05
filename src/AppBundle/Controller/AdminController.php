@@ -18,61 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class AdminController extends Controller
 {
-    public function addAction(Request $request)
-    {
-        $subfile = new SubFile();
-
-        $form = $this->createForm(SubFileType::class);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $brochureFile = $form['brochure']->getData();
-            $nameFile = $form['namefile']->getData();
-            $subjectName =  $form['subjectname']->getData();
-            //$typeName = $form['typename']->getData();
-
-            if($brochureFile) {
-
-                $brochureFileName = $nameFile.'-'.uniqid().'.'.$brochureFile->guessExtension();
-                $extensionFile = $brochureFile->guessExtension();
-                $time = new \DateTime();
-                $nowTime = $time->format('d-m-Y');
-
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $brochureFileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $subfile->setNameFile($nameFile);
-                $subfile->setExtensionFile($extensionFile);
-                $subfile->setCreatedAt($nowTime);
-                $subfile->setSubjectName($subjectName);
-                $subfile->setBrochureFileName($brochureFileName);
-                // $subfile->setTypeFile($typeName);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($subfile);
-                $entityManager->flush();
-            }
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $file = $em->getRepository(SubFile::class)->findAll();
-
-
-        return $this->render('default/subfile.html.twig', [
-            'form' => $form->createView(),
-            'files' => $file,
-        ]);
-    }
-
-    public function deleteAction($id) {
+    public function deleteFileAction($id) {
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository(SubFile::class)->find($id);
         $namef = $file->getNameFile();
@@ -85,29 +31,7 @@ class AdminController extends Controller
         return $this->redirectToRoute('uploadfile');
     }
 
-    public function getFileAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
-
-        $file = $em->getRepository(SubFile::class)->find($id);
-        $user = $this->getUser();
-        $ip = $request->getClientIp();
-
-        $fullFileName = $file->getBrochureFileName();
-
-        $pdfPath = $this->getParameter('brochures_directory').'/'.$fullFileName;
-
-        $download = new Download();
-        $download->setUser($user);
-        $download->setFile($file);
-        $download->setIp($ip);
-
-        $em->persist($download);
-        $em->flush();
-
-        return $this->file($pdfPath);
-    }
-
-    public function displayAcceptAction(){
+    public function acceptAction(){
         $em = $this->getDoctrine()->getManager();
         $students = $em->getRepository(User::class)->findBy(['enabled' => '0']);
 
@@ -128,10 +52,10 @@ class AdminController extends Controller
 
         $this->addFlash('success_accepted_user','Zaakceptowano!');
 
-        return $this->redirectToRoute('displacceptfile');
+        return $this->redirectToRoute('accept');
     }
 
-    public function changeStudentPasswordAction(Request $request) {
+    public function changePasswordAction(Request $request) {
         $form = $this->createFormBuilder()
             ->add('username', TextType::class, ['label' => 'Numer albumu']) //TODO: valid
             ->add('plainPassword', RepeatedType::class, array(
