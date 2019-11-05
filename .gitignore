@@ -3,6 +3,7 @@
 /build/
 /phpunit.xml
 /var/*
+/.vscode
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep
