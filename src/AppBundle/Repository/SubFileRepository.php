@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class SubFileRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getNumberOfFiles() {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT COUNT(sf.id) FROM AppBundle:SubFile sf'
+            )
+            ->getResult();
+    }
 }
