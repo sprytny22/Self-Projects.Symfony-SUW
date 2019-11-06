@@ -8,23 +8,23 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Wyklady</a>
+                        <a class="nav-link" href="/file">Wyklady</a>
                     </li>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Zatwierdzanie</a>
+                        <a class="nav-link" href="/accept">Zatwierdzanie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Statystyki</a>
+                        <a class="nav-link" href="/stat ">Statystyki</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Historia</a>
+                        <a class="nav-link" href="/history">Historia</a>
                     </li>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Zmiana hasla</a>
+                        <a class="nav-link" href="passwd">Zmiana hasla</a>
                     </li>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

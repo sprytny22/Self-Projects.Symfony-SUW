@@ -1,17 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row mt-4 mb-3">
-        {% for message in app.flashes('success') %}
-            <div class="col-lg-4">
+
+    <div class="row">
+        <div class="col border-bottom mt-4 mb-4">
+            <label><h2>Pliki w systemie:</h2></label>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for message in app.flashes('success_f') %}
+            <div class="col">
                 <div class="alert alert-success">
                     {{ message }}
                 </div>
             </div>
         {% endfor %}
+        {% for message in app.flashes('fault_f') %}
+            <div class="col">
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
+    <div class="row">
         {% if files %}
-            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar">
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar border-bottom">
                 <table class="table table-bordered table-striped mb-0">
                     <thead>
                         <tr>
@@ -24,7 +40,6 @@
                                 <th scope="col">Usun</th>
                             {% endif %}
                             <th scope="col">Pobierz</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -49,29 +64,38 @@
                 </table>
             </div>
         {% endif %}
-        {% if form %}
-            {% if is_granted("ROLE_ADMIN") %}
-                <div class="col-lg-12">
-                    {{ form_start(form) }}
-                        <div class="form-group">
-                            <label>Nazwa pliku</label>
-                            <div>{{ form_widget(form.namefile) }}</div>
-                            {#<div class="form-text text-muted">Nazwa pliku.</div>#}
-                        </div>
-                        <div class="form-group">
-                            <label>Nazwa przedmiotu</label>
-                            <div>{{ form_widget(form.subjectname) }}</div>
-                            {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
-                        </div>
-                        <div class="form-group">
-                            <label>Plik</label>
-                            <div>{{ form_widget(form.brochure) }}</div>
-                            {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
-                        </div>
-                    {{ form_row(form.save) }}
-                    {{ form_end(form) }}
-                </div>
-            {% endif %}
-        {% endif %}
     </div>
+
+    {% if form %}
+        <div class="row">
+            <div class="col border-bottom mt-4 mb-4">
+                <label><h2>Załaduj plik.</h2></label>
+            </div>
+        </div>
+        {% if is_granted("ROLE_ADMIN") %}
+            {{ form_start(form) }}
+                {{form_errors(form)}}
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Nazwa pliku</label>
+                        <div>{{ form_widget(form.namefile) }}</div>
+                        {#<div class="form-text text-muted">Nazwa pliku.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Nazwa przedmiotu</label>
+                        <div>{{ form_widget(form.subjectname) }}</div>
+                        {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Plik</label>
+                        <div>{{ form_widget(form.brochure) }}</div>
+                        {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div>{{ form_row(form.save, {'attr':{'class':'btn btn-primary', 'value':'Prześlij'}}) }}</div>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        {% endif %}
+    {% endif %}
 {% endblock %}

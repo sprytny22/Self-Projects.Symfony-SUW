@@ -37,4 +37,5 @@ security:
         - { path: ^/passwd, role: ROLE_ADMIN }
         - { path: ^/stat, role: ROLE_ADMIN }
         - { path: ^/history, role: ROLE_ADMIN }
+        - { path: ^/file, role: IS_AUTHENTICATED_FULLY }
 
