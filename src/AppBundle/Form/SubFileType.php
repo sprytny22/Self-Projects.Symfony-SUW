@@ -48,7 +48,9 @@ class SubFileType extends AbstractType
             ])
             ->add ('subjectname', TextType::class)
             //->add ('typename',TextType::class)
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, [
+                'label' => 'Przeslij',
+            ])
             // ...
         ;
     }/**

@@ -50,9 +50,15 @@ class UserController extends Controller
                 $subfile->setBrochureFileName($brochureFileName);
                 // $subfile->setTypeFile($typeName);
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($subfile);
-                $entityManager->flush();
+                try {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($subfile);
+                    $entityManager->flush();
+                    $this->addFlash('success_f','Pomyślnie dodano plik: '.$nameFile.' do bazy danych.');
+                }catch(\Doctrine\DBAL\DBALException $e){
+                    $error_message = 'this file name already exists in database.';
+                    $this->addFlash('fault_f','Error: this file name already exist in database.');
+                }
             }
         }
 
