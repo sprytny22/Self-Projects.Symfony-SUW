@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">System Udostepniania Wykladow</a>
+        <a class="navbar-brand my-brand" href="/">SUW</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,23 +26,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="passwd">Zmiana hasla</a>
                     </li>
-                {% endif %}
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <li class="nav-item border-left border-light">
-                            <a class="nav-link" style="color: red;">{{app.user.username }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
-                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                            </a>
-
-                        </li>
-                {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                        <a class="nav-link d-lg-none" href="{{ path('fos_user_security_logout') }}">Log out</a>
                     </li>
                 {% endif %}
-            </ul>
+                </ul>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="nav-log-in d-none d-lg-block text-light">{{ app.user.username }}</a>
+                    <a class="nav-link d-none d-lg-block text-light" href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% else %}
+                    <a class="nav-link d-none d-lg-block text-light" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                {% endif %}    
         </div>
     </div>
 </nav>
