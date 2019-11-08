@@ -6,3 +6,16 @@
 .table-wrapper-scroll-y {
     display: block;
 }
+
+.nav-log-in {
+    color: white !important;
+    font-size: 20px;
+    margin-left: 10px;
+    padding-left: 20px;
+    border-left: 2px dotted #5A5A5A;
+}
+
+.my-brand {
+    font-family: 'Permanent Marker', cursive;
+    font-size:25px !important;
+}
