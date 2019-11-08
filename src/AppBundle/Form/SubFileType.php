@@ -37,6 +37,7 @@ class SubFileType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
+                        'maxSizeMessage' => 'This file is too large min 1024k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
