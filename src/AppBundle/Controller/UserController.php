@@ -56,10 +56,14 @@ class UserController extends Controller
                     $entityManager->flush();
                     $this->addFlash('success_f','Pomyślnie dodano plik: '.$nameFile.' do bazy danych.');
                 }catch(\Doctrine\DBAL\DBALException $e){
-                    $error_message = 'this file name already exists in database.';
                     $this->addFlash('fault_f','Error: this file name already exist in database.');
                 }
             }
+        }
+
+        if($form->isSubmitted() && !$form->isValid()) {
+            $error = $form->getErrors(true);
+            $this->addFlash('fault_f',$error);
         }
 
         $em = $this->getDoctrine()->getManager();
