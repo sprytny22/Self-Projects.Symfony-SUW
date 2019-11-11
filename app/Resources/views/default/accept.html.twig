@@ -2,6 +2,11 @@
 
 {% block body %}
     <div class="row">
+            <div class="col border-bottom mt-4 mb-4">
+                <label><h2>{{ 'accept.accpt'|trans }}:</h2></label>
+            </div>
+        </div>
+    <div class="row">
         {% for message in app.flashes('success_accepted_user') %}
             <div class="col-lg-4">
                 <div class="alert alert-success">
@@ -10,15 +15,15 @@
             </div>
         {% endfor %}
         {% if users %}
-            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar">
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar border-bottom">
                 <table class="table table-bordered table-striped mb-0">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Imie</th>
-                        <th scope="col">Nazwisko</th>
-                        <th scope="col">Numer indeksu</th>
-                        <th scope="col">Akceptacja</th>
+                        <th scope="col">{{ 'name.accept_name'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_surname'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_index'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_accept'|trans }}</th>
 
                     </tr>
                     </thead>
@@ -26,14 +31,11 @@
                     {% for us in users %}
                         <tr>
                             <th scope="row">{{ us.id }}</th>
-                            <td>{{ us.username }}</td>
+                            <td>{{ us.firstName }}</td>
                             <td>{{ us.surName }}</td>
                             <td>{{ us.indNumber }}</td>
                             <td>
-                                <a href="/accept/{{ us.id }}" class="btn btn-info" role="button">Akceptuj</a>
-                            </td>
-                            <td>
-                                <a href="/passwd/{{ us.id }}" class="btn btn-danger" role="button">Zmień hasło</a>
+                                <a href="/accept/{{ us.id }}" class="btn btn-info" role="button">{{ 'accept.accpt'|trans }}</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -43,7 +45,7 @@
         {% else %}
             <div class="col-lg-12 mt-4">
                 <div class="form-text border-bottom">
-                    <label><h2>Brak studentów do zaakceptowania.</h2></label>
+                    <label><h2>{{ 'name.no_accept'|trans }}</h2></label>
                 </div>
             </div>
         {% endif %}

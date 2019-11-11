@@ -18,13 +18,19 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository(SubFile::class)->find($id);
         $namef = $file->getNameFile();
-
-        $this->addFlash('success','Removed '.$namef.' from database.');
-
+        $fullname = $file->getBrochureFileName();
+        
+        
+    try{
         $em->remove($file);
         $em->flush();
+        unlink($this->getParameter('brochures_directory').'/'.$fullname);
+        $this->addFlash('success_r','Removed '.$namef.' from database.');
+    }catch(FileException $e) {
+        $this->addFlash('fault_r',$e);
+    }
 
-        return $this->redirectToRoute('uploadfile');
+        return $this->redirectToRoute('file');
     }
 
     public function acceptAction(){
@@ -80,6 +86,7 @@ class AdminController extends Controller
             $um->setPlainPassword($passwd); 
 
             $userManager->updateUser($um);
+            $this->addFlash('success_passwd','Poprawnie zmieniono hasło');
         }
 
         return $this->render('default/password.html.twig', [
@@ -91,7 +98,7 @@ class AdminController extends Controller
 
         $files = $this->getDoctrine()->getRepository(SubFile::class)->getNumberOfFiles();
         $students = $this->getDoctrine()->getRepository(User::class)->getNumberOfUsers();
-        $downloads = $this->getDoctrine()->getRepository(User::class)->getNumberOfDownloads();
+        $downloads = $this->getDoctrine()->getRepository(Download::class)->getNumberOfDownloads();
 
         $files1 = $files[0][1];
         $students1 = $students[0][1];

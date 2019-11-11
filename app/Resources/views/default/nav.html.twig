@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand my-brand" href="/">SUW</a>
+        <a class="navbar-brand my-brand" href="/">{{ 'logo'|trans}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,26 +8,26 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/file">Wyklady</a>
+                        <a class="nav-link" href="{{ path('file') }}">{{ 'wyklady'|trans }}</a>
                     </li>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/accept">Zatwierdzanie</a>
+                        <a class="nav-link" href="{{ path('accept') }}">{{ 'accept.accpt'|trans }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/stat ">Statystyki</a>
+                        <a class="nav-link" href="{{ path('stats') }} ">{{ 'stat'|trans }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/history">Historia</a>
+                        <a class="nav-link" href="{{ path('history') }}">{{ 'history'|trans }}</a>
                     </li>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="passwd">Zmiana hasla</a>
+                        <a class="nav-link" href="{{ path('passwd') }}">{{ 'passwd'|trans }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-lg-none" href="{{ path('fos_user_security_logout') }}">Log out</a>
+                        <a class="nav-link d-lg-none" href="{{ path('fos_user_security_logout') }}">{{ 'logout'|trans }}</a>
                     </li>
                 {% endif %}
                 </ul>

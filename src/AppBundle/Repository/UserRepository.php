@@ -10,13 +10,6 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getNumberOfDownloads() {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT SUM(u.downloads) FROM AppBundle:User u'
-            )
-            ->getResult();
-    }
     public function getNumberOfUsers() {
         return $this->getEntityManager()
             ->createQuery(

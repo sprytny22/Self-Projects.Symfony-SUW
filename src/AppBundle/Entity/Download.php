@@ -23,7 +23,9 @@ class Download
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="download");
+     * @var string
+     *
+     * @ORM\Column(name="user", type="string", length=15, unique=false)
      */
     private $user;
 
@@ -41,7 +43,9 @@ class Download
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubFile", inversedBy="download");
+     * @var string
+     *
+     * @ORM\Column(name="file", type="string", length=255, unique=false)
      */
     private $file;
 
@@ -58,11 +62,11 @@ class Download
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param string $user
      *
      * @return Download
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser($user)
     {
         $this->user = $user;
 
@@ -72,7 +76,7 @@ class Download
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return string
      */
     public function getUser()
     {
@@ -82,11 +86,11 @@ class Download
     /**
      * Set file
      *
-     * @param \AppBundle\Entity\SubFile $file
+     * @param string $file
      *
      * @return Download
      */
-    public function setFile(\AppBundle\Entity\SubFile $file = null)
+    public function setFile($file)
     {
         $this->file = $file;
 
@@ -96,7 +100,7 @@ class Download
     /**
      * Get file
      *
-     * @return \AppBundle\Entity\SubFile
+     * @return string
      */
     public function getFile()
     {

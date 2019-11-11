@@ -40,7 +40,7 @@ class UserController extends Controller
                         $brochureFileName
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    //todo: error
                 }
 
                 $subfile->setNameFile($nameFile);
@@ -80,7 +80,11 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $file = $em->getRepository(SubFile::class)->find($id);
+        $fileName = $file->getNameFile();
+
         $user = $this->getUser();
+        $userName = $user->getIndNumber();
+
         $ip = $request->getClientIp();
 
         $fullFileName = $file->getBrochureFileName();
@@ -88,8 +92,8 @@ class UserController extends Controller
         $pdfPath = $this->getParameter('brochures_directory').'/'.$fullFileName;
 
         $download = new Download();
-        $download->setUser($user);
-        $download->setFile($file);
+        $download->setUser($userName);
+        $download->setFile($fileName);
         $download->setIp($ip);
 
         $em->persist($download);

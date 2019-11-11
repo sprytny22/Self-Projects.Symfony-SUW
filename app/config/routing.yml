@@ -1,5 +1,3 @@
-fos_user:
-    resource: "xmls/all.xml"
 
 app:
     resource: '@AppBundle/Controller/'
@@ -36,3 +34,10 @@ stats:
 history:
     path: /history
     defaults: {_controller: AppBundle:Admin:history}
+
+register_confirm:
+    path: /register/confirmed
+    defaults: {_controller: AppBundle:Default:index}
+
+fos_user:
+    resource: "xmls/all.xml"

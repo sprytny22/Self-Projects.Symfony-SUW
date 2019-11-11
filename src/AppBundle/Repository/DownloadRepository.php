@@ -10,10 +10,10 @@ namespace AppBundle\Repository;
  */
 class DownloadRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllSortedByDate() {
+    public function getNumberOfDownloads() {
         return $this->getEntityManager()
             ->createQuery(
-                ''
+                'SELECT COUNT(d.id) FROM AppBundle:Download d'
             )
             ->getResult();
     }

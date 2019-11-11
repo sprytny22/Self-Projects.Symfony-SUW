@@ -34,28 +34,6 @@ class User extends BaseUser
     private $file;
 
     /**
-     * @var integer
-     * @ORM\Column(name="downloads", type="integer", unique=false)
-     */
-    private $downloads = 0;
-
-     /**
-     * @return integer
-     */
-    public function getDownloads()
-    {
-        return $this->downloads;
-    }
-
-    /**
-     * @param integer $downloads
-     */
-    public function setDownloads($downloads)
-    {
-        $this->downloads = $downloads;
-    }
-
-    /**
      * @return string
      */
     public function getSurName()
@@ -100,6 +78,7 @@ class User extends BaseUser
     {
         $this->username = $indNumber;
         $this->indNumber = $indNumber;
+        $this->setEnabled(false);
     }
 
     public function __construct()
