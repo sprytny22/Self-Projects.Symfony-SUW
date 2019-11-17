@@ -3,6 +3,7 @@
 /build/
 /phpunit.xml
 /var/*
+/.vscode
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep
@@ -15,3 +16,5 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/bootstrap
+/web/uploads

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+            <div class="col border-bottom mt-4 mb-4">
+                <label><h2>{{ 'accept.accpt'|trans }}:</h2></label>
+            </div>
+        </div>
+    <div class="row">
+        {% for message in app.flashes('success_accepted_user') %}
+            <div class="col-lg-4">
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+        {% if users %}
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar border-bottom">
+                <table class="table table-bordered table-striped mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ 'name.accept_name'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_surname'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_index'|trans }}</th>
+                        <th scope="col">{{ 'name.accept_accept'|trans }}</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for us in users %}
+                        <tr>
+                            <th scope="row">{{ us.id }}</th>
+                            <td>{{ us.firstName }}</td>
+                            <td>{{ us.surName }}</td>
+                            <td>{{ us.indNumber }}</td>
+                            <td>
+                                <a href="/accept/{{ us.id }}" class="btn btn-info" role="button">{{ 'accept.accpt'|trans }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="col-lg-12 mt-4">
+                <div class="form-text border-bottom">
+                    <label><h2>{{ 'name.no_accept'|trans }}</h2></label>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

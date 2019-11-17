@@ -1,0 +1,34 @@
+logo: SUW
+wyklady: Wykłady
+stat: Statystyki
+history: Historia
+passwd: Zmień hasło
+newpasswd: Nowe hasło
+correctpasswd: Powierdz nowe hasło
+students: Studenci
+downloads: Pobrania
+es: Pliki
+
+# /accept
+accept:
+  accpt: Zatwierdzanie
+
+name:
+  accept_name: Imie
+  accept_surname: Nazwisko
+  accept_index: Numer indeksu
+  accept_accept: Akceptuj
+  no_accept: Brak studentow do akceptacji.
+  file_name: Nazwa pliku
+  file_type: Typ pliku
+  date: Data
+  subject: Przedmiot
+  remove: Usuń
+  download: Pobierz
+  up: Zaladuj plik
+  subname: Nazwa przedmiotu
+
+file:
+  in_system: Pliki w systemie
+  name: Plik
+  

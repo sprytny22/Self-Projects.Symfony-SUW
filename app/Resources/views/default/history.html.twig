@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col border-bottom mt-4 mb-4">
+            <label><h2>{{ 'history'|trans }}:</h2></label>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if downloads %}
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar border-bottom">
+                <table class="table table-bordered table-striped mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ 'name.accept_index'|trans }}</th>
+                        <th scope="col">{{ 'name.file_name'|trans }}</th>
+                        <th scope="col">{{ 'name.date'|trans }}</th>
+                        <th scope="col">IP</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for dw in downloads %}
+                        <tr>
+                            <th scope="row">{{ dw.id }}</th>
+                            <td>{{ dw.user }}</td>
+                            <td>{{ dw.file }}</td>
+                            <td>{{ dw.date|date('d-m-Y H:i:s') }}</td>
+                            <td>{{ dw.ip }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %} {# TODO: create else with info #}
+    </div>
+{% endblock %}

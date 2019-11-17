@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col border-bottom mt-4 mb-4">
+            <label><h2>{{ 'file.in_system'|trans }}:</h2></label>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for message in app.flashes('success_f') %}
+            <div class="col">
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('fault_f') %}
+            <div class="col">
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        {% if files %}
+            <div class="col-lg-12 table-wrapper-scroll-y my-custom-scrollbar border-bottom">
+                <table class="table table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ 'name.file_name'|trans }}</th>
+                            <th scope="col">{{ 'name.file_type'|trans }}</th>
+                            <th scope="col">{{ 'name.date'|trans }}</th>
+                            <th scope="col">{{ 'name.subject'|trans }}</th>
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <th scope="col">{{ 'name.remove'|trans }}</th>
+                            {% endif %}
+                            <th scope="col">{{ 'name.download'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ro in files %}
+                            <tr>
+                                <th scope="row">{{ ro.id }}</th>
+                                <td>{{ ro.nameFile }}</td>
+                                <td>{{ ro.extensionFile }}</td>
+                                <td>{{ ro.createdAt }}</td>
+                                <td>{{ ro.subjectName }}</td>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <td>
+                                        <a href="/file/delete/{{ ro.id }}" class="btn btn-danger" role="button">{{ 'name.remove'|trans }}</a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="/file/get/{{ ro.id }}" class="btn btn-info" role="button">{{ 'name.download'|trans }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if form %}
+        <div class="row">
+            <div class="col border-bottom mt-4 mb-4">
+                <label><h2>{{ 'name.up'|trans }}:</h2></label>
+            </div>
+        </div>
+        {% if is_granted("ROLE_ADMIN") %}
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>{{ 'name.file_name'|trans }}</label>
+                        <div>{{ form_widget(form.namefile) }}</div>
+                        {#<div class="form-text text-muted">Nazwa pliku.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>{{ 'name.subname'|trans }}</label>
+                        <div>{{ form_widget(form.subjectname) }}</div>
+                        {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>{{ 'file.name'|trans }}</label>
+                        <div>{{ form_widget(form.brochure) }}</div>
+                        {#<div class="form-text text-muted">Nazwa przedmiotu.</div>#}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div>{{ form_row(form.save, {'attr':{'class':'btn btn-primary', 'value':'Prześlij'}}) }}</div>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        {% endif %}
+    {% endif %}
+{% endblock %}

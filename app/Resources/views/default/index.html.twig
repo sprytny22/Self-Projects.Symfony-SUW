@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
-
-        <div class="col-lg-3">
-
-            <h1 class="my-4">Shop Name</h1>
-            <div class="list-group">
-                <a href="#" class="list-group-item">Logowanie</a>
-                <a href="#" class="list-group-item">Rejestracja</a>
+        <div class = "h-100">
+            <div class="col-lg-12 text-center mt-5">
+                <div class="form-text">
+                    <a href="/login" class="text-decoration-none text-dark"><h1 class="display-4">Logowanie</h1></a>
+                </div>
+                <div class="border-bottom"></div>
+                <div class="form-text">
+                    <a href="/register" class="text-decoration-none text-dark"><h1 class="display-4">Rejestracja</h1></a>
+                </div>
             </div>
-
         </div>
-    </div>
 {% endblock %}

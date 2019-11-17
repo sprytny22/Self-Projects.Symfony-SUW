@@ -31,3 +31,11 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/file/delete/\d+$, role: ROLE_ADMIN }
+        - { path: ^/accept, role: ROLE_ADMIN }
+        - { path: ^/accept/\d+$, role: ROLE_ADMIN }
+        - { path: ^/passwd, role: ROLE_ADMIN }
+        - { path: ^/stat, role: ROLE_ADMIN }
+        - { path: ^/history, role: ROLE_ADMIN }
+        - { path: ^/file, role: IS_AUTHENTICATED_FULLY }
+
